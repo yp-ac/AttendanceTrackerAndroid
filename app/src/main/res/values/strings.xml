@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Attendance Tracker</string>
+    <string name="search_hint">"Search For Class "</string>
+    <string name="preference_file_key">com.example.microproject.attendancetrackersharedpreferences</string>
 </resources>

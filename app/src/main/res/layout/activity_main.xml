@@ -39,7 +39,7 @@
             android:id="@+id/roundedImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
+            android:background="?colorPrimary"
             android:scaleType="centerCrop"
             android:src="@drawable/abstrac_background" />
 
@@ -50,6 +50,37 @@
             android:background="#000" />
 
     </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/qrButton"
+        style="@style/Widget.Material3.Button.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="@dimen/custom_max_width"
+        android:minWidth="@dimen/custom_min_width"
+        android:minHeight="60dp"
+        android:text="Scan QR"
+        android:textSize="16sp"
+        app:icon="@drawable/baseline_priority_high_24"
+        app:iconSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/usernameField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/qrStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please Scan QR Code"
+        app:layout_constraintBottom_toTopOf="@+id/usernameField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/qrButton"
+        android:textColor="?colorError"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameField"
@@ -62,7 +93,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        app:layout_constraintTop_toBottomOf="@+id/qrButton"
         app:layout_constraintVertical_bias="0.5">
 
         <com.google.android.material.textfield.TextInputEditText
