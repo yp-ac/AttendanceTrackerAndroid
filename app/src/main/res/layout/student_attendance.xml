@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -20,13 +21,13 @@
             android:id="@+id/studentPic"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="10dp"
             android:src="@drawable/profile_loading"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:layout_marginLeft="10dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -47,11 +48,10 @@
 
         </LinearLayout>
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/attendanceBtn"
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp" />
+            android:id="@+id/attendanceBtn"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
     <com.google.android.material.divider.MaterialDivider

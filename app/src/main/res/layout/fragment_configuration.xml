@@ -39,8 +39,8 @@
             android:layout_marginTop="10dp"
             android:textColor="?colorPrimary"/>
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/batchButtonGroup"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/batchChipGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -50,37 +50,42 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:selectionRequired="true"
             app:layout_constraintVertical_bias="0.5">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/allBatches"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="All" />
-
-            <com.google.android.material.button.MaterialButton
+            <com.google.android.material.chip.Chip
                 android:id="@+id/aBatch"
-                style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="A" />
+                style="@style/Widget.Material3.Chip.Filter"
+                android:text="A"/>
 
-            <com.google.android.material.button.MaterialButton
+            <com.google.android.material.chip.Chip
                 android:id="@+id/bBatch"
-                style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="B" />
+                style="@style/Widget.Material3.Chip.Filter"
+                android:text="B"/>
 
-            <com.google.android.material.button.MaterialButton
+            <com.google.android.material.chip.Chip
                 android:id="@+id/cBatch"
-                style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="C" />
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+                style="@style/Widget.Material3.Chip.Filter"
+                android:text="C"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/tut1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:text="Tut 1"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/tut2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:text="Tut 2"/>
+        </com.google.android.material.chip.ChipGroup>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dateLayout"

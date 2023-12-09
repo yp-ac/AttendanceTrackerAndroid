@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.ArrayList;
 
@@ -87,7 +87,7 @@ public class StudentRecyclerAdapter extends RecyclerView.Adapter<StudentRecycler
     public class StudentViewHolder extends RecyclerView.ViewHolder {
 
         private TextView enrollmentNoLabel, nameLabel;
-        private SwitchMaterial attendanceButton;
+        private MaterialSwitch attendanceButton;
         private ImageView profilePic;
 
         public StudentViewHolder(@NonNull View itemView) {

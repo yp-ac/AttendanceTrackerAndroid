@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -31,7 +34,8 @@ import java.text.MessageFormat;
 // https://stackoverflow.com/questions/20237531/how-can-i-access-getsupportfragmentmanager-in-a-fragment
 
 public class ConfigurationFragment extends Fragment {
-    MaterialButtonToggleGroup batchToggleGroup, durationToggleGroup;
+    MaterialButtonToggleGroup durationToggleGroup;
+    ChipGroup batchToggleGroup;
     TextInputEditText dateField, timeField, commentsField;
     TextInputLayout timeLayout;
     static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -57,8 +61,7 @@ public class ConfigurationFragment extends Fragment {
         sharedPreferences = view.getContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         sharedPreferencesEditor = sharedPreferences.edit();
 
-        batchToggleGroup = view.findViewById(R.id.batchButtonGroup);
-        batchToggleGroup.check(R.id.allBatches);
+        batchToggleGroup = view.findViewById(R.id.batchChipGroup);
 
         durationToggleGroup = view.findViewById(R.id.hourGroup);
         durationToggleGroup.check(R.id.oneHourLecture);
@@ -69,7 +72,7 @@ public class ConfigurationFragment extends Fragment {
 
         commentsField = view.findViewById(R.id.commentsFieldInput);
 
-        configureBatchToggleGroup();
+        configureBatchToggleGroup(view);
         configureDurationToggleGroup();
         configureTimeField();
         configureDateField();
@@ -84,7 +87,7 @@ public class ConfigurationFragment extends Fragment {
         dateField.setText(dateFormat.format(MaterialDatePicker.todayInUtcMilliseconds()));
 
         sharedPreferencesEditor.putString("COMMENT", "");
-        sharedPreferencesEditor.putString("BATCH", "Z");
+        sharedPreferencesEditor.putString("BATCH", "");
         sharedPreferencesEditor.putString("DATE", dateFormat.format(MaterialDatePicker.todayInUtcMilliseconds()));
         sharedPreferencesEditor.putInt("HOUR", hour);
         sharedPreferencesEditor.putInt("MINUTE", minute);
@@ -171,26 +174,17 @@ public class ConfigurationFragment extends Fragment {
             }
         });
     }
-    void configureBatchToggleGroup() {
-        batchToggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
-            if (isChecked) {
-                String batch = "Z";
+    void configureBatchToggleGroup(View view) {
+        batchToggleGroup.setOnCheckedStateChangeListener((chipGroup, checkedIds) -> {
+            if (checkedIds.isEmpty()) {
+                sharedPreferencesEditor.putString("BATCH", "");
+                sharedPreferencesEditor.apply();
+            } else {
+                Chip chip = view.findViewById(checkedIds.get(0));
 
-                if (checkedId == R.id.allBatches) {
-                    batch = "Z";
-                } else {
-                    durationToggleGroup.check(R.id.twoHourLecture);
+                durationToggleGroup.check(R.id.twoHourLecture);
 
-                    if (checkedId == R.id.aBatch) {
-                        batch = "A";
-                    } else if (checkedId == R.id.bBatch) {
-                        batch = "B";
-                    } else if (checkedId == R.id.cBatch) {
-                        batch = "C";
-                    }
-                }
-
-                sharedPreferencesEditor.putString("BATCH", batch);
+                sharedPreferencesEditor.putString("BATCH", chip.getText().toString());
                 sharedPreferencesEditor.apply();
             }
         });

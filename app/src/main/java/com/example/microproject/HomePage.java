@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
 
@@ -79,6 +80,11 @@ public class HomePage extends AppCompatActivity {
                 return false;
             });
 
+        profile.setOnMenuItemClickListener(menuItem -> {
+            showModal();
+            return false;
+        });
+
         SectionRecyclerAdapter adapter = new SectionRecyclerAdapter(recyclerSectionData,this);
 
         // setting grid layout manager to implement grid view.
@@ -88,5 +94,10 @@ public class HomePage extends AppCompatActivity {
         // at last set adapter to recycler view.
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    void showModal() {
+        ProfileBottomSheetFragment profileBottomSheetFragment = new ProfileBottomSheetFragment();
+        profileBottomSheetFragment.show(getSupportFragmentManager(), profileBottomSheetFragment.getTag());
     }
 }

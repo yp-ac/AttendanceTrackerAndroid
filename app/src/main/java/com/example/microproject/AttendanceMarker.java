@@ -66,7 +66,7 @@ public class AttendanceMarker extends AppCompatActivity {
             sb.append(intent.getStringExtra(SectionRecyclerAdapter.EXTRA_SECTION))
                     .append(" ")
                     .append(intent.getStringExtra(SectionRecyclerAdapter.EXTRA_SEM))
-                    .append((batch.equals("Z")) ? "" : (batch + " batch"))
+                    .append((batch.equals("")) ? "" : (" " + batch + " batch"))
                     .append(" on ")
                     .append(sharedPreferences.getString("DATE", ""))
                     .append(" from ")
