@@ -75,20 +75,25 @@ public class AttendanceMarker extends AppCompatActivity {
                             sharedPreferences.getInt("MINUTE", 0))))
                     .append(" to ")
                     .append(ConfigurationFragment.timeFormatter.format(LocalTime.of(
-                            sharedPreferences.getInt("HOUR", 0) + sharedPreferences.getInt("DURATION", 0),
+                            getEndHour(sharedPreferences.getInt("HOUR", 0), sharedPreferences.getInt("DURATION", 0)),
                             sharedPreferences.getInt("MINUTE", 0))));
 
             new MaterialAlertDialogBuilder(this)
                     .setTitle("Mark Attendance")
                     .setMessage(sb.toString())
-                    .setNeutralButton("wait", (dialog, which) -> {
-                        dialog.dismiss();
-                    })
+                    .setNeutralButton("cancel", (dialog, which) -> {})
                     .setPositiveButton("mark", (dialog, which) -> {
 
                     })
                     .show();
             return false;
         });
+    }
+
+    static int getEndHour(Integer hr, Integer du) {
+        if (hr + du > 23) {
+            return hr + du - 24;
+        }
+        return hr + du;
     }
 }

@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,11 +32,14 @@ public class HomePage extends AppCompatActivity {
     MenuItem profile;
     RecyclerView recyclerView;
     ArrayList<SectionData> recyclerSectionData;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         recyclerView = findViewById(R.id.sectionRV);
         recyclerSectionData = new ArrayList<>();
@@ -57,7 +62,10 @@ public class HomePage extends AppCompatActivity {
         searchView.setupWithSearchBar(searchBar);
 
         Glide.with(this)
-            .load("https://online.gppune.ac.in/gpp_s20/student/photo/2106206.png")
+            .load(sharedPreferences.getString("PROFILE_URL", ""))
+            .placeholder(R.drawable.profile_loading)
+            .error(R.drawable.blue)
+            .fallback(R.drawable.blue)
             .centerCrop()
             .circleCrop()
             .into(new CustomTarget<Drawable>() {

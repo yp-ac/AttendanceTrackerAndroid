@@ -82,7 +82,7 @@ public class ConfigurationFragment extends Fragment {
 
         timeField.setText(LocalTime.of(hour, 0).format(timeFormatter));
         timeLayout.setHelperText(MessageFormat.format("Lecture Ends at {0}",
-                LocalTime.of(hour + durationOfLecture, minute).format(timeFormatter)));
+                LocalTime.of(AttendanceMarker.getEndHour(hour, durationOfLecture), minute).format(timeFormatter)));
 
         dateField.setText(dateFormat.format(MaterialDatePicker.todayInUtcMilliseconds()));
 
@@ -148,7 +148,7 @@ public class ConfigurationFragment extends Fragment {
                 timeField.setText(t.format(timeFormatter));
 
                 timeLayout.setHelperText(MessageFormat.format("Lecture Ends at {0}",
-                        LocalTime.of(hour + durationOfLecture, minute).format(timeFormatter)));
+                        LocalTime.of(AttendanceMarker.getEndHour(hour, durationOfLecture), minute).format(timeFormatter)));
 
                 sharedPreferencesEditor.putInt("HOUR", hour);
                 sharedPreferencesEditor.putInt("MINUTE", minute);
@@ -170,7 +170,7 @@ public class ConfigurationFragment extends Fragment {
                 sharedPreferencesEditor.putInt("DURATION", durationOfLecture);
                 sharedPreferencesEditor.apply();
                 timeLayout.setHelperText(MessageFormat.format("Lecture Ends at {0}",
-                        LocalTime.of(hour + durationOfLecture, minute).format(timeFormatter)));
+                        LocalTime.of(AttendanceMarker.getEndHour(hour, durationOfLecture), minute).format(timeFormatter)));
             }
         });
     }

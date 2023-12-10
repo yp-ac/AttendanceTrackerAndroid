@@ -1,5 +1,7 @@
 package com.example.microproject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,10 +28,11 @@ import com.google.mlkit.vision.codescanner.GmsBarcodeScanning;
 
 public class ProfileBottomSheetFragment extends BottomSheetDialogFragment {
     private GmsBarcodeScanner scanner;
-    private GmsBarcodeScannerOptions options;
+    private QRCodeScanner qrCodeScanner;
     MaterialButton syncButton, logOutButton, scanQrButton;
     TextView userName, userDesignation, serverUrl;
     ImageView profile;
+    SharedPreferences sharedPreferences;
     public ProfileBottomSheetFragment() {
         // Required empty public constructor
     }
@@ -50,52 +53,48 @@ public class ProfileBottomSheetFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        sharedPreferences = view.getContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
         scanQrButton = view.findViewById(R.id.qrSheetButton);
+        logOutButton = view.findViewById(R.id.logoutButton);
+        syncButton = view.findViewById(R.id.syncButton);
+
+        userName = view.findViewById(R.id.userName);
+        userDesignation = view.findViewById(R.id.userDesignation);
+        serverUrl = view.findViewById(R.id.serverUrl);
+
         profile = view.findViewById(R.id.modalProfile);
-        String profileUrl = "https://online.gppune.ac.in/gpp_s20/student/photo/2106206.png";
+        String profileUrl = sharedPreferences.getString("PROFILE_URL", "");
 
-        options = new GmsBarcodeScannerOptions.Builder()
-                .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
-                .allowManualInput()
-                .build();
+        userName.setText(sharedPreferences.getString("NAME", ""));
+        userDesignation.setText(sharedPreferences.getString("DESIGNATION", ""));
 
-        scanner = GmsBarcodeScanning.getClient(view.getContext(), options);
+        qrCodeScanner = new QRCodeScanner(view.getContext());
 
         Glide.with(view)
-                .load(profileUrl)
-                .placeholder(R.drawable.profile_loading)
-                .error(R.drawable.blue)
-                .fallback(R.drawable.blue)
-                .transform(new MultiTransformation(new CenterCrop(), new RoundedCorners(20)))
-                .into(profile);
+            .load(profileUrl)
+            .placeholder(R.drawable.profile_loading)
+            .error(R.drawable.blue)
+            .fallback(R.drawable.blue)
+            .transform(new MultiTransformation<>(new CenterCrop(), new RoundedCorners(20)))
+            .into(profile);
 
         scanQrButton.setOnClickListener(v -> {
-            scanner.startScan()
-                    .addOnSuccessListener(
-                            barcode -> {
-                                // Task completed successfully
-                                Log.i("scanner", barcode.getRawValue());
-                            })
-                    .addOnCanceledListener(
-                            () -> {
-                                Snackbar.make(
-                                                v,
-                                                "Scan Cancelled",
-                                                Snackbar.LENGTH_LONG
-                                        )
-                                        .show();
-                                Log.i("scanner", "cancelled");
-                            })
-                    .addOnFailureListener(
-                            e -> {
-                                Snackbar.make(
-                                                v,
-                                                "Failed to Read QR Code",
-                                                Snackbar.LENGTH_LONG
-                                        )
-                                        .show();
-                                Log.e("scanner", "Scan failed");
-                            });
+            qrCodeScanner.startScan(v, rawData -> {});
         });
+
+        logOutButton.setOnClickListener(v -> {
+            logout();
+            getActivity().finish();
+        });
+    }
+
+    void logout() {
+        SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
+        sharedPreferencesEditor.putString("USERNAME", "");
+        sharedPreferencesEditor.putString("PROFILE_URL", "");
+        sharedPreferencesEditor.putString("DESIGNATION", "");
+        sharedPreferencesEditor.apply();
+        // TODO: Clear App Data
     }
 }
